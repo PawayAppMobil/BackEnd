@@ -25,7 +25,7 @@ public class OpenAPIConfig {
                             .url("https://www.apache.org/licenses/LICENSE-2.0.html")))
             .externalDocs(new ExternalDocumentation()
                     .description("Kmoneta Wiki Documentation")
-                    .url("https://AgroGes.wiki.github.io/docs"));
+                    .url("https://Kmoneta.wiki.github.io/docs"));
 
     return openApi;
   }
