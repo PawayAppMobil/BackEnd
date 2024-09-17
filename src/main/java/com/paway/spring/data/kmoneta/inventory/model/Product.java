@@ -1,4 +1,4 @@
-package com.paway.spring.data.kmoneta.model;
+package com.paway.spring.data.kmoneta.inventory.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;

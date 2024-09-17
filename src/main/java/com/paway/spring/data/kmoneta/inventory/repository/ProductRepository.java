@@ -1,7 +1,7 @@
 
-package com.paway.spring.data.kmoneta.repository;
+package com.paway.spring.data.kmoneta.inventory.repository;
 
-import com.paway.spring.data.kmoneta.model.Product;
+import com.paway.spring.data.kmoneta.inventory.model.Product;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import java.util.List;
 
