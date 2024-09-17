@@ -1,9 +1,9 @@
-package com.paway.spring.data.kmoneta.controller;
+package com.paway.spring.data.kmoneta.inventory.controller;
 
 
 
-import com.paway.spring.data.kmoneta.model.Product;
-import com.paway.spring.data.kmoneta.repository.ProductRepository;
+import com.paway.spring.data.kmoneta.inventory.model.Product;
+import com.paway.spring.data.kmoneta.inventory.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
