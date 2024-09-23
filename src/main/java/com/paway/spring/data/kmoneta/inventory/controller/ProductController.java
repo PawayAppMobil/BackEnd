@@ -34,15 +34,14 @@ public class ProductController {
     }
 
     @GetMapping("/products")
-    public ResponseEntity<List<Product>> getAllProducts() {
-        String title = null;
+    public ResponseEntity<List<Product>> getAllProducts(@RequestParam(required = false) String productName) {
         try {
             List<Product> Products = new ArrayList<Product>();
 
-            if (title == null)
+            if (productName == null)
                 productRepository.findAll().forEach(Products::add);
             else
-                productRepository.findByProductNameContaining(title).forEach(Products::add);
+                productRepository.findByProductNameContaining(productName).forEach(Products::add);
 
             if (Products.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
