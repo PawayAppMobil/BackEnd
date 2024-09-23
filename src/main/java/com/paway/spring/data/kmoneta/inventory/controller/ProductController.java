@@ -34,7 +34,7 @@ public class ProductController {
     }
 
     @GetMapping("/products")
-    public ResponseEntity<List<Product>> getAllProducts(@RequestParam(required = false) String title) {
+    public ResponseEntity<List<Product>> getAllProducts( String title) {
         try {
             List<Product> Products = new ArrayList<Product>();
 
