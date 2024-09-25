@@ -10,4 +10,5 @@ public class InvoiceItem {
     private String description;
     private Integer quantity;
     private Double unitPrice;
+    private String productId;
 }
