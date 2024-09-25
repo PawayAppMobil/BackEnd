@@ -64,4 +64,46 @@ public class ProductController {
         }
     }
 
+
+
+    @PutMapping("/Products/{id}")
+    public ResponseEntity<Product> updateProduct(@PathVariable("id") String id, @RequestBody Product product) {
+        Optional<Product> productData = productRepository.findById(id);
+
+        if (productData.isPresent()) {
+            Product _product = productData.get();
+            _product.setProductName(product.getProductName());
+            _product.setDescription(product.getDescription());
+            _product.setPrice(product.getPrice());
+            _product.setStock(product.getStock());
+
+
+            return new ResponseEntity<>(productRepository.save(_product), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+
+
+    @DeleteMapping("/products/{id}")
+    public ResponseEntity<HttpStatus> deleteProduct(@PathVariable("id") String id) {
+        try {
+            productRepository.deleteById(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @DeleteMapping("/products")
+    public ResponseEntity<HttpStatus> deleteAllProducts() {
+        try {
+            productRepository.deleteAll();
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }
