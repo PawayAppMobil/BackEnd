@@ -54,7 +54,7 @@ public class InventoryController {
         if (inventoryOpt.isPresent() && productOpt.isPresent()) {
             Inventory inventory = inventoryOpt.get();
             Product product = productOpt.get();
-            inventory.getProducts().add(product);
+            inventory.getProducts().add(product.getId());
             return inventoryRepository.save(inventory);
         } else {
             throw new RuntimeException("Inventory or Product not found");

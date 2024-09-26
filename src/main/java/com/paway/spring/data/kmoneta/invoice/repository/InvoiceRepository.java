@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Date;
 
 public interface InvoiceRepository extends MongoRepository<Invoice, String> {
-    List<Invoice> findByCustomerId(String customerId);
+    List<Invoice> findByUserId(String userId);
     List<Invoice> findByStatus(String status);
     List<Invoice> findByDueDateBetween(Date startDate, Date endDate);
 }

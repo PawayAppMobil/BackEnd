@@ -14,10 +14,15 @@ public class Invoice {
     @Id
     private String id;
     private Date date;
-    private Double amount;
     private String status;
     private List<InvoiceItem> items;
     private String transactionId;
-    private String customerId;
+    private String userId;
     private Date dueDate;
+
+    public Double getAmount() {
+        return items.stream()
+                .mapToDouble(item -> item.getQuantity() * item.getUnitPrice())
+                .sum();
+    }
 }

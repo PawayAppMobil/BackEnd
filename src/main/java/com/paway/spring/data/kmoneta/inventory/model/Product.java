@@ -12,15 +12,16 @@ public class Product {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String id;
     private String description;
-    private int price;
+    private double price;
     private String productName;
     private int stock;
+
 
 
     public Product() {
     }
 
-    public Product(String description, int price, String productName, int stock) {
+    public Product(String description, double price, String productName, int stock) {
         this.description = description;
         this.price = price;
         this.productName = productName;
@@ -39,11 +40,11 @@ public class Product {
         this.description = description;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 

@@ -10,13 +10,13 @@ public class Inventory {
 
     @Id
     private String id;
-    private List<Product> products;
+    private List<String> products;
     private String customerId;
 
     public Inventory() {
     }
 
-    public Inventory(String id, List<Product> products, String customerId) {
+    public Inventory(String id, List<String> products, String customerId) {
         this.id = id;
         this.products = products;
         this.customerId = customerId;
@@ -30,11 +30,11 @@ public class Inventory {
         this.id = id;
     }
 
-    public List<Product> getProducts() {
+    public List<String> getProducts() {
         return products;
     }
 
-    public void setProducts(List<Product> products) {
+    public void setProducts(List<String> products) {
         this.products = products;
     }
 

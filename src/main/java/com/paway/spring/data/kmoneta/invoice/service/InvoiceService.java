@@ -2,7 +2,7 @@ package com.paway.spring.data.kmoneta.invoice.service;
 
 import com.paway.spring.data.kmoneta.invoice.model.Invoice;
 import com.paway.spring.data.kmoneta.invoice.repository.InvoiceRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -11,8 +11,11 @@ import java.util.Date;
 @Service
 public class InvoiceService {
 
-    @Autowired
-    private InvoiceRepository invoiceRepository;
+    private final InvoiceRepository invoiceRepository;
+
+    public InvoiceService(InvoiceRepository invoiceRepository) {
+        this.invoiceRepository = invoiceRepository;
+    }
 
     public Invoice createInvoice(Invoice invoice) {
         return invoiceRepository.save(invoice);
@@ -34,8 +37,8 @@ public class InvoiceService {
         invoiceRepository.deleteById(id);
     }
 
-    public List<Invoice> getInvoicesByCustomer(String customerId) {
-        return invoiceRepository.findByCustomerId(customerId);
+    public List<Invoice> getInvoicesByCustomer(String userId) {
+        return invoiceRepository.findByUserId(userId);
     }
 
     public List<Invoice> getInvoicesByStatus(String status) {
