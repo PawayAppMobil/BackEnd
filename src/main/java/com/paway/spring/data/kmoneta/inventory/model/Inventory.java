@@ -10,15 +10,15 @@ public class Inventory {
 
     @Id
     private String id;
-    private List<Product> products;
+    private List<String> productIds;
     private String customerId;
 
     public Inventory() {
     }
 
-    public Inventory(String id, List<Product> products, String customerId) {
+    public Inventory(String id, List<String> productIds, String customerId) {
         this.id = id;
-        this.products = products;
+        this.productIds = productIds;
         this.customerId = customerId;
     }
 
@@ -30,12 +30,12 @@ public class Inventory {
         this.id = id;
     }
 
-    public List<Product> getProducts() {
-        return products;
+    public List<String> getProducts() {
+        return productIds;
     }
 
-    public void setProducts(List<Product> products) {
-        this.products = products;
+    public void setProducts(List<String> productIds) {
+        this.productIds = productIds;
     }
 
     public String getCustomerId() {
@@ -48,6 +48,6 @@ public class Inventory {
 
     @Override
     public String toString() {
-        return "Inventory [id=" + id + ", products=" + products + ", customerId=" + customerId + "]";
+        return "Inventory [id=" + id + ", products=" + productIds + ", customerId=" + customerId + "]";
     }
 }
