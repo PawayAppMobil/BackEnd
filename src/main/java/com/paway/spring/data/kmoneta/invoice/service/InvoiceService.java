@@ -1,13 +1,13 @@
 package com.paway.spring.data.kmoneta.invoice.service;
 
 import com.paway.spring.data.kmoneta.invoice.model.Invoice;
+import com.paway.spring.data.kmoneta.invoice.model.InvoiceItem;
 import com.paway.spring.data.kmoneta.invoice.repository.InvoiceRepository;
 
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.Date;
-
 @Service
 public class InvoiceService {
 
@@ -17,7 +17,15 @@ public class InvoiceService {
         this.invoiceRepository = invoiceRepository;
     }
 
-    public Invoice createInvoice(Invoice invoice) {
+    public Invoice createInvoice(InvoiceDTO invoiceDTO) {
+        Invoice invoice = new Invoice();
+        invoice.setDate(invoiceDTO.getDate());
+        invoice.setStatus(invoiceDTO.getStatus());
+        invoice.setItems(invoiceDTO.getItems());
+        invoice.setTransactionId(invoiceDTO.getTransactionId());
+        invoice.setUserId(invoiceDTO.getUserId());
+        invoice.setDueDate(invoiceDTO.getDueDate());
+        invoice.setAmount(invoice.calculateAmount());
         return invoiceRepository.save(invoice);
     }
 
@@ -29,8 +37,20 @@ public class InvoiceService {
         return invoiceRepository.findAll();
     }
 
-    public Invoice updateInvoice(Invoice invoice) {
-        return invoiceRepository.save(invoice);
+    public Invoice updateInvoice(String id, InvoiceDTO invoiceDTO) {
+        Optional<Invoice> invoiceOpt = invoiceRepository.findById(id);
+        if (invoiceOpt.isPresent()) {
+            Invoice invoice = invoiceOpt.get();
+            invoice.setDate(invoiceDTO.getDate());
+            invoice.setStatus(invoiceDTO.getStatus());
+            invoice.setItems(invoiceDTO.getItems());
+            invoice.setTransactionId(invoiceDTO.getTransactionId());
+            invoice.setUserId(invoiceDTO.getUserId());
+            invoice.setDueDate(invoiceDTO.getDueDate());
+            invoice.setAmount(invoice.calculateAmount());
+            return invoiceRepository.save(invoice);
+        }
+        return null;
     }
 
     public void deleteInvoice(String id) {
@@ -59,3 +79,6 @@ public class InvoiceService {
         return null;
     }
 }
+
+
+

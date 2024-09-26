@@ -1,6 +1,7 @@
 package com.paway.spring.data.kmoneta.invoice.controller;
 
 import com.paway.spring.data.kmoneta.invoice.model.Invoice;
+import com.paway.spring.data.kmoneta.invoice.service.InvoiceDTO;
 import com.paway.spring.data.kmoneta.invoice.service.InvoiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -9,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Date;
-
 @RestController
 @RequestMapping("/api/invoices")
 public class InvoiceController {
@@ -18,8 +18,8 @@ public class InvoiceController {
     private InvoiceService invoiceService;
 
     @PostMapping
-    public ResponseEntity<Invoice> createInvoice(@RequestBody Invoice invoice) {
-        Invoice createdInvoice = invoiceService.createInvoice(invoice);
+    public ResponseEntity<Invoice> createInvoice(@RequestBody InvoiceDTO invoiceDTO) {
+        Invoice createdInvoice = invoiceService.createInvoice(invoiceDTO);
         return new ResponseEntity<>(createdInvoice, HttpStatus.CREATED);
     }
 
@@ -37,9 +37,8 @@ public class InvoiceController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Invoice> updateInvoice(@PathVariable String id, @RequestBody Invoice invoice) {
-        invoice.setId(id);
-        Invoice updatedInvoice = invoiceService.updateInvoice(invoice);
+    public ResponseEntity<Invoice> updateInvoice(@PathVariable String id, @RequestBody InvoiceDTO invoiceDTO) {
+        Invoice updatedInvoice = invoiceService.updateInvoice(id, invoiceDTO);
         return new ResponseEntity<>(updatedInvoice, HttpStatus.OK);
     }
 

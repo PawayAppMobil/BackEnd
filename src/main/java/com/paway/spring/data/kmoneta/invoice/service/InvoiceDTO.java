@@ -1,19 +1,12 @@
-package com.paway.spring.data.kmoneta.invoice.model;
+package com.paway.spring.data.kmoneta.invoice.service;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import com.paway.spring.data.kmoneta.invoice.model.InvoiceItem;
+
 import java.util.Date;
 import java.util.List;
 
-
-@Document(collection = "invoices")
-public class Invoice {
-    @Id
-    private String id;
+public class InvoiceDTO {
     private Date date;
-    private Double amount;
     private String status;
     private List<InvoiceItem> items;
     private String transactionId;
@@ -21,28 +14,12 @@ public class Invoice {
     private Date dueDate;
 
     // Métodos getter y setter manuales
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public Date getDate() {
         return date;
     }
 
     public void setDate(Date date) {
         this.date = date;
-    }
-
-    public Double getAmount() {
-        return amount;
-    }
-
-    public void setAmount(Double amount) {
-        this.amount = amount;
     }
 
     public String getStatus() {
@@ -83,12 +60,5 @@ public class Invoice {
 
     public void setDueDate(Date dueDate) {
         this.dueDate = dueDate;
-    }
-
-    // Método para calcular el amount
-    public Double calculateAmount() {
-        return items.stream()
-                .mapToDouble(item -> item.getQuantity() * item.getUnitPrice())
-                .sum();
     }
 }

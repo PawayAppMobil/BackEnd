@@ -1,5 +1,6 @@
 package com.paway.spring.data.kmoneta.reports.model;
 
+import com.paway.spring.data.kmoneta.transaction.model.Transaction;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
@@ -32,17 +33,17 @@ public class Report {
     private String reportType;
 
     // Método para generar el reporte
-    public void generateReport(List<Expense> expenses) {
+    public void generateReport(List<Expense> expenses, List<Transaction> transactions) {
         this.generatedAt = new Date();
-        this.data.setTotalIncome(calculateTotalIncome());
+        this.data.setTotalIncome(calculateTotalIncome(transactions));
         this.data.setTotalExpenses(calculateTotalExpenses(expenses));
     }
 
     // Método para calcular el total de ingresos
-    private double calculateTotalIncome() {
-        return data.getDetails().stream()
-                .filter(detail -> detail.getAmount() > 0)
-                .mapToDouble(Detail::getAmount)
+    private double calculateTotalIncome(List<Transaction> transactions) {
+        return transactions.stream()
+                .filter(transaction -> "income".equals(transaction.getType()))
+                .mapToDouble(Transaction::getAmount)
                 .sum();
     }
 
