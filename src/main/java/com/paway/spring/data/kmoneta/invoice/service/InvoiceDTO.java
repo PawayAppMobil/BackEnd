@@ -1,11 +1,13 @@
 package com.paway.spring.data.kmoneta.invoice.service;
 
 import com.paway.spring.data.kmoneta.invoice.model.InvoiceItem;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 import java.util.List;
 public class InvoiceDTO {
+
     private Date date;
     private Double amount;
     private String status;
@@ -13,7 +15,7 @@ public class InvoiceDTO {
     private String transactionId;
     private String userId;
     private Date dueDate;
-    private MultipartFile document; // Para la imagen o PDF
+     // Para la imagen o PDF
 
     // Getters y Setters
 
@@ -73,11 +75,5 @@ public class InvoiceDTO {
         this.dueDate = dueDate;
     }
 
-    public MultipartFile getDocument() {
-        return document;
-    }
 
-    public void setDocument(MultipartFile document) {
-        this.document = document;
-    }
 }

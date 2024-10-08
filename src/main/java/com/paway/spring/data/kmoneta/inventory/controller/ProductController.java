@@ -21,35 +21,36 @@ public class ProductController {
     @Autowired
     ProductRepository productRepository;
 
-    @PostMapping("/products")
-    public ResponseEntity<Product> createProduct(@ModelAttribute ProductDTO productDTO) {
+    @PostMapping(value="/products", consumes = "multipart/form-data")
+    public ResponseEntity<Product> createProduct(
+            @RequestParam String description,
+            @RequestParam double price,
+            @RequestParam String productName,
+            @RequestParam int stock,
+            @RequestPart MultipartFile image,
+            @RequestParam String providerId) {
         try {
             byte[] imageBytes = null;
-
-            if (productDTO.getImage() != null && !productDTO.getImage().isEmpty()) {
-                imageBytes = productDTO.getImage().getBytes();
+            if (image != null && !image.isEmpty()) {
+                imageBytes = image.getBytes();
             }
 
-            // Crear un nuevo producto
             Product product = new Product(
-                    productDTO.getDescription(),
-                    productDTO.getPrice(),
-                    productDTO.getProductName(),
-                    productDTO.getStock(),
+                    description,
+                    price,
+                    productName,
+                    stock,
                     imageBytes,
-                    productDTO.getProviderId()
+                    providerId
             );
 
-            // Guardar el producto en la base de datos
             Product savedProduct = productRepository.save(product);
-
-            // Devolver el producto guardado
             return new ResponseEntity<>(savedProduct, HttpStatus.CREATED);
         } catch (IOException e) {
-            // Manejo específico de IOException
+            e.printStackTrace();
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         } catch (Exception e) {
-            // Manejo general de otras excepciones
+            e.printStackTrace();
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

@@ -1,6 +1,7 @@
 package com.paway.spring.data.kmoneta.inventory.model;
 
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.web.multipart.MultipartFile;
 
 public class ProductDTO {
@@ -8,6 +9,7 @@ public class ProductDTO {
     private double price;
     private String productName;
     private int stock;
+    @Schema(description = "Imagen del producto", required = false, type = "string", format = "binary")
     private MultipartFile image;  // Para la imagen
     private String providerId;
 

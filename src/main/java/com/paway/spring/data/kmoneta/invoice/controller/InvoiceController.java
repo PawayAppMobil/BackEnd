@@ -8,6 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
@@ -19,8 +20,11 @@ public class InvoiceController {
     @Autowired
     private InvoiceService invoiceService;
 
-    @PostMapping
-    public ResponseEntity<Invoice> createInvoice(@ModelAttribute InvoiceDTO invoiceDTO) {
+    @PostMapping(consumes = "multipart/form-data")
+    public ResponseEntity<Invoice> createInvoice(
+            @ModelAttribute InvoiceDTO invoiceDTO, // Usa el DTO
+            @RequestPart(required = false) MultipartFile document) { // Archivo como RequestPart
+
         try {
             Invoice createdInvoice = new Invoice();
             createdInvoice.setDate(invoiceDTO.getDate());
@@ -31,8 +35,9 @@ public class InvoiceController {
             createdInvoice.setUserId(invoiceDTO.getUserId());
             createdInvoice.setDueDate(invoiceDTO.getDueDate());
 
-            if (invoiceDTO.getDocument() != null && !invoiceDTO.getDocument().isEmpty()) {
-                createdInvoice.setDocument(invoiceDTO.getDocument().getBytes());
+            // Manejo del documento (archivo)
+            if (document != null && !document.isEmpty()) {
+                createdInvoice.setDocument(document.getBytes());
             }
 
             Invoice savedInvoice = invoiceService.createInvoice(createdInvoice);
