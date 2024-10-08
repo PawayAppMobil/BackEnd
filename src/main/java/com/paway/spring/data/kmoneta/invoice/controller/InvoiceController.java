@@ -8,6 +8,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 import java.util.List;
 import java.util.Date;
 @RestController
@@ -18,9 +20,26 @@ public class InvoiceController {
     private InvoiceService invoiceService;
 
     @PostMapping
-    public ResponseEntity<Invoice> createInvoice(@RequestBody InvoiceDTO invoiceDTO) {
-        Invoice createdInvoice = invoiceService.createInvoice(invoiceDTO);
-        return new ResponseEntity<>(createdInvoice, HttpStatus.CREATED);
+    public ResponseEntity<Invoice> createInvoice(@ModelAttribute InvoiceDTO invoiceDTO) {
+        try {
+            Invoice createdInvoice = new Invoice();
+            createdInvoice.setDate(invoiceDTO.getDate());
+            createdInvoice.setAmount(invoiceDTO.getAmount());
+            createdInvoice.setStatus(invoiceDTO.getStatus());
+            createdInvoice.setItems(invoiceDTO.getItems());
+            createdInvoice.setTransactionId(invoiceDTO.getTransactionId());
+            createdInvoice.setUserId(invoiceDTO.getUserId());
+            createdInvoice.setDueDate(invoiceDTO.getDueDate());
+
+            if (invoiceDTO.getDocument() != null && !invoiceDTO.getDocument().isEmpty()) {
+                createdInvoice.setDocument(invoiceDTO.getDocument().getBytes());
+            }
+
+            Invoice savedInvoice = invoiceService.createInvoice(createdInvoice);
+            return new ResponseEntity<>(savedInvoice, HttpStatus.CREATED);
+        } catch (IOException e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/{id}")
@@ -39,18 +58,13 @@ public class InvoiceController {
     @PutMapping("/{id}")
     public ResponseEntity<Invoice> updateInvoice(@PathVariable String id, @RequestBody InvoiceDTO invoiceDTO) {
         Invoice updatedInvoice = invoiceService.updateInvoice(id, invoiceDTO);
-        return new ResponseEntity<>(updatedInvoice, HttpStatus.OK);
+        return updatedInvoice != null ? new ResponseEntity<>(updatedInvoice, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteInvoice(@PathVariable String id) {
-        invoiceService.deleteInvoice(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
-    @GetMapping("/customer/{customerId}")
-    public ResponseEntity<List<Invoice>> getInvoicesByCustomer(@PathVariable String customerId) {
-        List<Invoice> invoices = invoiceService.getInvoicesByCustomer(customerId);
+    @GetMapping("/due-date-range")
+    public ResponseEntity<List<Invoice>> getInvoicesByDueDateRange(
+            @RequestParam Date startDate,
+            @RequestParam Date endDate) {
+        List<Invoice> invoices = invoiceService.getInvoicesByDueDateRange(startDate, endDate);
         return new ResponseEntity<>(invoices, HttpStatus.OK);
     }
 
@@ -59,21 +73,9 @@ public class InvoiceController {
         List<Invoice> invoices = invoiceService.getInvoicesByStatus(status);
         return new ResponseEntity<>(invoices, HttpStatus.OK);
     }
-
-    @GetMapping("/due-date-range")
-    public ResponseEntity<List<Invoice>> getInvoicesNearDueDate(
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate) {
-        List<Invoice> invoices = invoiceService.getInvoicesNearDueDate(startDate, endDate);
-        return new ResponseEntity<>(invoices, HttpStatus.OK);
-    }
-
-    @PutMapping("/{id}/mark-as-paid")
-    public ResponseEntity<Invoice> markInvoiceAsPaid(@PathVariable String id) {
-        Invoice paidInvoice = invoiceService.markAsPaid(id);
-        if (paidInvoice != null) {
-            return new ResponseEntity<>(paidInvoice, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteInvoice(@PathVariable String id) {
+        invoiceService.deleteInvoice(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

@@ -1,5 +1,6 @@
 package com.paway.spring.data.kmoneta.invoice.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
@@ -11,6 +12,7 @@ import java.util.List;
 @Document(collection = "invoices")
 public class Invoice {
     @Id
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String id;
     private Date date;
     private Double amount;
@@ -19,8 +21,10 @@ public class Invoice {
     private String transactionId;
     private String userId;
     private Date dueDate;
+    private byte[] document; // Para almacenar la imagen o PDF
 
-    // Métodos getter y setter manuales
+    // Métodos getter y setter
+
     public String getId() {
         return id;
     }
@@ -85,10 +89,11 @@ public class Invoice {
         this.dueDate = dueDate;
     }
 
-    // Método para calcular el amount
-    public Double calculateAmount() {
-        return items.stream()
-                .mapToDouble(item -> item.getQuantity() * item.getUnitPrice())
-                .sum();
+    public byte[] getDocument() {
+        return document;
+    }
+
+    public void setDocument(byte[] document) {
+        this.document = document;
     }
 }

@@ -15,17 +15,19 @@ public class Product {
     private double price;
     private String productName;
     private int stock;
-
-
+    private byte[] image;  // Cambiado a byte[]
+    private String providerId;
 
     public Product() {
     }
 
-    public Product(String description, double price, String productName, int stock) {
+    public Product(String description, double price, String productName, int stock, byte[] image, String providerId) {
         this.description = description;
         this.price = price;
         this.productName = productName;
         this.stock = stock;
+        this.image = image;  // Cambiado a byte[]
+        this.providerId = providerId;
     }
 
     public String getId() {
@@ -62,6 +64,17 @@ public class Product {
 
     public void setStock(int stock) {
         this.stock = stock;
+    }
+
+    public byte[] getImage() {  // Nuevo getter
+        return image;
+    }
+
+    public void setImage(byte[] image) {  // Nuevo setter
+        this.image = image;
+    }
+    public String getProviderId() {
+        return providerId;
     }
 
     @Override
