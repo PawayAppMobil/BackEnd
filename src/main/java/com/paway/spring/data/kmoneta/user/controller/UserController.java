@@ -20,9 +20,9 @@ public class UserController {
         return userRepository.findAll();
     }
 
-    @GetMapping("/{id}")
-    public User getUserById(@PathVariable String id) {
-        return userRepository.findById(id).orElse(null);
+    @GetMapping("/{username}")
+    public String getUserById(@PathVariable String username) {
+        return userRepository.findByUsername(username).getId();
     }
 
     @PostMapping
