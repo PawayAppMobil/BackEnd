@@ -11,6 +11,7 @@ public class Product {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String id;
+    private String userId;
     private String description;
     private double price;
     private String productName;
@@ -21,7 +22,8 @@ public class Product {
     public Product() {
     }
 
-    public Product(String description, double price, String productName, int stock, byte[] image, String providerId) {
+    public Product(String description, String userId,double price, String productName, int stock, byte[] image, String providerId) {
+        this.userId = userId;
         this.description = description;
         this.price = price;
         this.productName = productName;

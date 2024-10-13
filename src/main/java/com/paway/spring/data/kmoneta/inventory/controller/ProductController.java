@@ -24,6 +24,7 @@ public class ProductController {
     @PostMapping(value="/products", consumes = "multipart/form-data")
     public ResponseEntity<Product> createProduct(
             @RequestParam String description,
+            @RequestParam String userId,
             @RequestParam double price,
             @RequestParam String productName,
             @RequestParam int stock,
@@ -37,6 +38,7 @@ public class ProductController {
 
             Product product = new Product(
                     description,
+                    userId,
                     price,
                     productName,
                     stock,
