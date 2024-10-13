@@ -5,6 +5,7 @@ import com.paway.spring.data.kmoneta.reports.model.ReportRequest;
 import com.paway.spring.data.kmoneta.reports.service.ReportService;
 import com.paway.spring.data.kmoneta.transaction.model.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,8 +28,12 @@ public class ReportController {
         return new ResponseEntity<>(report, HttpStatus.CREATED);
     }
 
-    @GetMapping
-    public ResponseEntity<List<Transaction>> getTransactionsByDateRange(@RequestParam String userId, @RequestParam Date startDate, @RequestParam Date endDate) {
+    @GetMapping("/transactions")
+    public ResponseEntity<List<Transaction>> getTransactionsByDateRange(
+            @RequestParam String userId,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date startDate,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date endDate) {
+
         List<Transaction> transactions = reportService.getTransactionsByDateRange(userId, startDate, endDate);
         return new ResponseEntity<>(transactions, HttpStatus.OK);
     }
