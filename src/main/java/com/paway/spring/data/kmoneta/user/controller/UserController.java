@@ -4,6 +4,7 @@ import com.paway.spring.data.kmoneta.user.model.LoginRequest;
 import com.paway.spring.data.kmoneta.user.model.User;
 import com.paway.spring.data.kmoneta.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -43,12 +44,31 @@ public class UserController {
 
 
     @PostMapping("/login")
-    public String login(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
         User user = userRepository.findByUsername(loginRequest.getUsername());
+
         if (user != null && user.getPassword().equals(loginRequest.getPassword())) {
-            return "Login successful";
+            return ResponseEntity.ok(new LoginResponse("Login successful"));
         }
-        return "Failed to sign in";
+
+        return ResponseEntity.ok(new LoginResponse("Failed to sign in"));
+    }
+
+    // Clase de respuesta
+    public static class LoginResponse {
+        private String message;
+
+        public LoginResponse(String message) {
+            this.message = message;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public void setMessage(String message) {
+            this.message = message;
+        }
     }
 
 
