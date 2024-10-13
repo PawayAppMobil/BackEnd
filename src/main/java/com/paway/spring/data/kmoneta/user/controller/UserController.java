@@ -1,5 +1,6 @@
 package com.paway.spring.data.kmoneta.user.controller;
 
+import com.paway.spring.data.kmoneta.user.model.LoginRequest;
 import com.paway.spring.data.kmoneta.user.model.User;
 import com.paway.spring.data.kmoneta.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,4 +40,17 @@ public class UserController {
     public void deleteUser(@PathVariable String id) {
         userRepository.deleteById(id);
     }
+
+
+    @PostMapping("/login")
+    public String login(@RequestBody LoginRequest loginRequest) {
+        User user = userRepository.findByUsername(loginRequest.getUsername());
+        if (user != null && user.getPassword().equals(loginRequest.getPassword())) {
+            return "Login successful";
+        }
+        return "Failed to sign in";
+    }
+
+
+
 }
