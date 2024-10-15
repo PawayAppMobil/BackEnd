@@ -9,14 +9,15 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
+
+
 
 @Document(collection = "reports")
 @Getter
 @Setter
 public class Report {
     @Id
-    private String id; // ID generado automáticamente
+    private String id;
     private String userId;
     private DateRange dateRange;
     private Date generatedAt;
@@ -38,8 +39,5 @@ public class Report {
                 .sum();
     }
 
-    // Método para generar un ID único
-    public void generateId() {
-        this.id = UUID.randomUUID().toString();
-    }
 }
+

@@ -4,7 +4,6 @@ import com.paway.spring.data.kmoneta.reports.model.Report;
 import com.paway.spring.data.kmoneta.reports.model.ReportRequest;
 import com.paway.spring.data.kmoneta.reports.service.ReportService;
 import com.paway.spring.data.kmoneta.transaction.model.Transaction;
-import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +16,7 @@ import org.springframework.http.HttpStatus;
 import java.util.Date;
 
 @RestController
-@RequestMapping("/api/report")
+@RequestMapping("/api/reports")
 public class ReportController {
 
     @Autowired
@@ -37,10 +36,5 @@ public class ReportController {
 
         List<Transaction> transactions = reportService.getTransactionsByDateRange(userId, startDate, endDate);
         return new ResponseEntity<>(transactions, HttpStatus.OK);
-    }
-    @GetMapping("/{UserId}")
-    public ResponseEntity<List<Report>> getReportById(@PathVariable String UserId) {
-        val report = reportService.getReportsByUserId(UserId);
-        return new ResponseEntity<>(report, HttpStatus.OK);
     }
 }
