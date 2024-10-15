@@ -20,20 +20,25 @@ public class InvoiceController {
     @Autowired
     private InvoiceService invoiceService;
 
-    @PostMapping(consumes = "multipart/form-data")
+    @PostMapping(consumes = {"multipart/form-data"})
     public ResponseEntity<Invoice> createInvoice(
-            @ModelAttribute InvoiceDTO invoiceDTO, // Usa el DTO
-            @RequestPart(required = false) MultipartFile document) { // Archivo como RequestPart
-
+            @RequestPart("invoiceDTO") String invoiceDTOJson,
+            @RequestPart(required = false) MultipartFile document) {
         try {
+            // Deserialize the JSON string to InvoiceDTO
+            ObjectMapper objectMapper = new ObjectMapper();
+            InvoiceDTO invoiceDTO = objectMapper.readValue(invoiceDTOJson, InvoiceDTO.class);
+
             Invoice createdInvoice = new Invoice();
             createdInvoice.setDate(invoiceDTO.getDate());
             createdInvoice.setAmount(invoiceDTO.getAmount());
             createdInvoice.setStatus(invoiceDTO.getStatus());
             createdInvoice.setItems(invoiceDTO.getItems());
+ 
             createdInvoice.setUserId(invoiceDTO.getUserId());
             createdInvoice.setDueDate(invoiceDTO.getDueDate());
 
+            // Handle the document
             if (document != null && !document.isEmpty()) {
                 createdInvoice.setDocument(document.getBytes());
             }
