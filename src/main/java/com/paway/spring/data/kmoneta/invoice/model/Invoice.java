@@ -18,7 +18,7 @@ public class Invoice {
     private Double amount;
     private String status;
     private List<InvoiceItem> items;
-    private String transactionId;
+
     private String userId;
     private Date dueDate;
     private byte[] document; // Para almacenar la imagen o PDF
@@ -65,13 +65,7 @@ public class Invoice {
         this.items = items;
     }
 
-    public String getTransactionId() {
-        return transactionId;
-    }
 
-    public void setTransactionId(String transactionId) {
-        this.transactionId = transactionId;
-    }
 
     public String getUserId() {
         return userId;

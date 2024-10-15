@@ -12,7 +12,7 @@ public class InvoiceDTO {
     private Double amount;
     private String status;
     private List<InvoiceItem> items;
-    private String transactionId;
+
     private String userId;
     private Date dueDate;
      // Para la imagen o PDF
@@ -51,13 +51,6 @@ public class InvoiceDTO {
         this.items = items;
     }
 
-    public String getTransactionId() {
-        return transactionId;
-    }
-
-    public void setTransactionId(String transactionId) {
-        this.transactionId = transactionId;
-    }
 
     public String getUserId() {
         return userId;

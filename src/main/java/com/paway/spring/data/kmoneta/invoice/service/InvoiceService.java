@@ -34,8 +34,6 @@ public class InvoiceService {
             invoice.setDate(invoiceDTO.getDate());
             invoice.setAmount(invoiceDTO.getAmount());
             invoice.setStatus(invoiceDTO.getStatus());
-            invoice.setItems(invoiceDTO.getItems());
-            invoice.setTransactionId(invoiceDTO.getTransactionId());
             invoice.setUserId(invoiceDTO.getUserId());
             invoice.setDueDate(invoiceDTO.getDueDate());
             return invoiceRepository.save(invoice);

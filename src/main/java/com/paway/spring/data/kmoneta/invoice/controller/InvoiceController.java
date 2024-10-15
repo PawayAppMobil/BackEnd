@@ -31,11 +31,9 @@ public class InvoiceController {
             createdInvoice.setAmount(invoiceDTO.getAmount());
             createdInvoice.setStatus(invoiceDTO.getStatus());
             createdInvoice.setItems(invoiceDTO.getItems());
-            createdInvoice.setTransactionId(invoiceDTO.getTransactionId());
             createdInvoice.setUserId(invoiceDTO.getUserId());
             createdInvoice.setDueDate(invoiceDTO.getDueDate());
 
-            // Manejo del documento (archivo)
             if (document != null && !document.isEmpty()) {
                 createdInvoice.setDocument(document.getBytes());
             }
