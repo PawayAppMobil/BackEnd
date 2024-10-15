@@ -6,6 +6,9 @@ import com.paway.spring.data.kmoneta.invoice.repository.InvoiceRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.Date;
@@ -42,6 +45,17 @@ public class InvoiceService {
     }
     public List<Invoice> getInvoicesByDueDateRange(Date startDate, Date endDate) {
         return invoiceRepository.findByDueDateBetween(startDate, endDate);
+    }
+    public Invoice addInvoiceDocument(String id, MultipartFile document) throws IOException {
+        Optional<Invoice> optionalInvoice = invoiceRepository.findById(id);
+        if (optionalInvoice.isPresent()) {
+            Invoice invoice = optionalInvoice.get();
+            if (document != null && !document.isEmpty()) {
+                invoice.setDocument(document.getBytes());
+            }
+            return invoiceRepository.save(invoice);
+        }
+        return null;
     }
 
     public List<Invoice> getInvoicesByStatus(String status) {
