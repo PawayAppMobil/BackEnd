@@ -1,10 +1,14 @@
 package com.paway.spring.data.kmoneta.invoice.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -14,13 +18,14 @@ public class Invoice {
     @Id
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String id;
-    private Date date;
+
+    private LocalDate date;
     private Double amount;
     private String status;
     private List<InvoiceItem> items;
 
     private String userId;
-    private Date dueDate;
+
     private byte[] document; // Para almacenar la imagen o PDF
 
     // Métodos getter y setter
@@ -32,12 +37,12 @@ public class Invoice {
     public void setId(String id) {
         this.id = id;
     }
-
-    public Date getDate() {
+    @JsonFormat(pattern = "yyyy-MM-dd ")
+    public LocalDate  getDate() {
         return date;
     }
-
-    public void setDate(Date date) {
+    @JsonFormat(pattern = "yyyy-MM-dd ")
+    public void setDate(LocalDate  date) {
         this.date = date;
     }
 
@@ -75,13 +80,7 @@ public class Invoice {
         this.userId = userId;
     }
 
-    public Date getDueDate() {
-        return dueDate;
-    }
 
-    public void setDueDate(Date dueDate) {
-        this.dueDate = dueDate;
-    }
 
     public byte[] getDocument() {
         return document;

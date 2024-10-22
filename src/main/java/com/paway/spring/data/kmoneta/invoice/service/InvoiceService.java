@@ -1,7 +1,6 @@
 package com.paway.spring.data.kmoneta.invoice.service;
 
 import com.paway.spring.data.kmoneta.invoice.model.Invoice;
-import com.paway.spring.data.kmoneta.invoice.model.InvoiceItem;
 import com.paway.spring.data.kmoneta.invoice.repository.InvoiceRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,13 +37,13 @@ public class InvoiceService {
             invoice.setAmount(invoiceDTO.getAmount());
             invoice.setStatus(invoiceDTO.getStatus());
             invoice.setUserId(invoiceDTO.getUserId());
-            invoice.setDueDate(invoiceDTO.getDueDate());
+
             return invoiceRepository.save(invoice);
         }
         return null;
     }
     public List<Invoice> getInvoicesByDueDateRange(Date startDate, Date endDate) {
-        return invoiceRepository.findByDueDateBetween(startDate, endDate);
+        return invoiceRepository.findByDateBetween(startDate, endDate);
     }
     public Invoice addInvoiceDocument(String id, MultipartFile document) throws IOException {
         Optional<Invoice> optionalInvoice = invoiceRepository.findById(id);

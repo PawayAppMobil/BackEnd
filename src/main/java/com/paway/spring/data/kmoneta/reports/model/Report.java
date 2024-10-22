@@ -1,5 +1,6 @@
 package com.paway.spring.data.kmoneta.reports.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.paway.spring.data.kmoneta.reports.service.DateRange;
 import com.paway.spring.data.kmoneta.transaction.model.Transaction;
 import lombok.Getter;
@@ -7,6 +8,7 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -19,7 +21,8 @@ public class Report {
     private String id; // ID generado automáticamente
     private String userId;
     private DateRange dateRange;
-    private Date generatedAt;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private LocalDate generatedAt;
     private String reportType;
     private double totalIncome;
     private double totalExpenses;

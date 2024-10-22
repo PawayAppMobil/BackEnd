@@ -8,5 +8,5 @@ import java.util.Date;
 public interface InvoiceRepository extends MongoRepository<Invoice, String> {
     List<Invoice> findByUserId(String userId);
     List<Invoice> findByStatus(String status);
-    List<Invoice> findByDueDateBetween(Date startDate, Date endDate);
+    List<Invoice> findByDateBetween(Date startDate, Date endDate);
 }

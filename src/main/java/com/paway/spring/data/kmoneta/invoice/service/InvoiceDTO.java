@@ -1,29 +1,33 @@
 package com.paway.spring.data.kmoneta.invoice.service;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.paway.spring.data.kmoneta.invoice.model.InvoiceItem;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 public class InvoiceDTO {
-
-    private Date date;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private LocalDate date;
     private Double amount;
     private String status;
     private List<InvoiceItem> items;
 
     private String userId;
-    private Date dueDate;
+
      // Para la imagen o PDF
 
     // Getters y Setters
 
-    public Date getDate() {
+    public LocalDate  getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate  date) {
         this.date = date;
     }
 
@@ -60,13 +64,7 @@ public class InvoiceDTO {
         this.userId = userId;
     }
 
-    public Date getDueDate() {
-        return dueDate;
-    }
 
-    public void setDueDate(Date dueDate) {
-        this.dueDate = dueDate;
-    }
 
 
 }

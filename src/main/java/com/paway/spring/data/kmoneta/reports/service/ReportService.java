@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
-
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -28,7 +28,7 @@ public class ReportService {
         Report report = new Report();
         report.setUserId(userId);
         report.setDateRange(dateRange);
-        report.setGeneratedAt(new Date());
+        report.setGeneratedAt(LocalDate.now());
         report.setReportType(reportType);
         report.setTransactions(transactions);
 
@@ -46,7 +46,7 @@ public class ReportService {
         return reports;
     }
 
-    public List<Transaction> getTransactionsByDateRange(String userId, Date startDate, Date endDate) {
+    public List<Transaction> getTransactionsByDateRange(String userId, LocalDate startDate, LocalDate endDate) {
         return transactionRepository.findByUserIdAndDateBetween(userId, startDate, endDate);
     }
 

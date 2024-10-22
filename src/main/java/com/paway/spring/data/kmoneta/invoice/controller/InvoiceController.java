@@ -33,7 +33,7 @@ public class InvoiceController {
         createdInvoice.setStatus(invoiceDTO.getStatus());
         createdInvoice.setItems(invoiceDTO.getItems());
         createdInvoice.setUserId(invoiceDTO.getUserId());
-        createdInvoice.setDueDate(invoiceDTO.getDueDate());
+
 
         Invoice savedInvoice = invoiceService.createInvoice(createdInvoice);
         return new ResponseEntity<>(savedInvoice, HttpStatus.CREATED);
