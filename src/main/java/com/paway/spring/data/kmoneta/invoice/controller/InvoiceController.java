@@ -1,11 +1,16 @@
 package com.paway.spring.data.kmoneta.invoice.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.paway.spring.data.kmoneta.inventory.model.Product;
+import com.paway.spring.data.kmoneta.inventory.model.ProductDTO;
+import com.paway.spring.data.kmoneta.inventory.repository.ProductRepository;
 import com.paway.spring.data.kmoneta.invoice.model.Invoice;
 import com.paway.spring.data.kmoneta.invoice.service.InvoiceDTO;
 import com.paway.spring.data.kmoneta.invoice.service.InvoiceService;
 
 
+import com.paway.spring.data.kmoneta.transaction.model.Transaction;
+import com.paway.spring.data.kmoneta.transaction.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -16,27 +21,67 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.DataInput;
 import java.io.IOException;
-import java.util.List;
-import java.util.Date;
+import java.util.*;
+import java.util.stream.Collectors;
+
 @RestController
 @RequestMapping("/api/invoices")
 public class InvoiceController {
 
     @Autowired
     private InvoiceService invoiceService;
+    @Autowired
+    private ProductRepository productService;
+    @Autowired
+    private TransactionRepository transactionService;
 
     @PostMapping
-    public ResponseEntity<Invoice> createInvoice(@RequestBody InvoiceDTO invoiceDTO) {
+    public ResponseEntity<Map<String, Object>> createInvoice(@RequestBody InvoiceDTO invoiceDTO) {
         Invoice createdInvoice = new Invoice();
         createdInvoice.setDate(invoiceDTO.getDate());
         createdInvoice.setAmount(invoiceDTO.getAmount());
         createdInvoice.setStatus(invoiceDTO.getStatus());
-        createdInvoice.setItems(invoiceDTO.getItems());
         createdInvoice.setUserId(invoiceDTO.getUserId());
         createdInvoice.setDueDate(invoiceDTO.getDueDate());
 
+        // Obtener los productos por los IDs proporcionados
+        List<Product> products = new ArrayList<>();
+
+        for (String productId : invoiceDTO.getProductIds()) {
+            Optional<Product> productOptional = productService.findById(productId);
+            productOptional.ifPresent(products::add);
+        }
+
+        createdInvoice.setItems(products);
+
+        // Guardar la factura creada
         Invoice savedInvoice = invoiceService.createInvoice(createdInvoice);
-        return new ResponseEntity<>(savedInvoice, HttpStatus.CREATED);
+
+        // Crear una transacción basada en la factura recién creada
+        Transaction newTransaction = new Transaction();
+        newTransaction.setAmount(savedInvoice.getAmount().intValue());
+        newTransaction.setDate(savedInvoice.getDate());
+        newTransaction.setInvoiceId(savedInvoice.getId());
+        newTransaction.setUserId(savedInvoice.getUserId());
+        newTransaction.setDetails("Transaction for Invoice ID: " + savedInvoice.getId());
+
+        if ("Income".equalsIgnoreCase(savedInvoice.getStatus())) {
+            newTransaction.setIncome(true);
+        } else if ("Expense".equalsIgnoreCase(savedInvoice.getStatus())) {
+            newTransaction.setIncome(false);
+        } else {
+            newTransaction.setIncome(true);  // Default a Income
+        }
+
+        // Guardar la transacción creada
+        Transaction savedTransaction = transactionService.save(newTransaction);
+
+        // Crear un mapa para retornar la factura y la transacción en la respuesta
+        Map<String, Object> response = new HashMap<>();
+        response.put("invoice", savedInvoice);
+        response.put("transaction", savedTransaction);
+
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @PostMapping(value="/{id}/document", consumes = "multipart/form-data")

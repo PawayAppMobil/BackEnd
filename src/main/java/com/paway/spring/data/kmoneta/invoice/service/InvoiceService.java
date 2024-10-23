@@ -1,7 +1,6 @@
 package com.paway.spring.data.kmoneta.invoice.service;
 
 import com.paway.spring.data.kmoneta.invoice.model.Invoice;
-import com.paway.spring.data.kmoneta.invoice.model.InvoiceItem;
 import com.paway.spring.data.kmoneta.invoice.repository.InvoiceRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;

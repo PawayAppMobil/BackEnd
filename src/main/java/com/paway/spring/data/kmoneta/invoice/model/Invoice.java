@@ -1,6 +1,7 @@
 package com.paway.spring.data.kmoneta.invoice.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.paway.spring.data.kmoneta.inventory.model.Product;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
@@ -11,76 +12,45 @@ import java.util.List;
 
 @Document(collection = "invoices")
 public class Invoice {
+    @Setter
+    @Getter
     @Id
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String id;
+    @Setter
+    @Getter
     private Date date;
+    @Setter
+    @Getter
     private Double amount;
+    @Setter
     private String status;
-    private List<InvoiceItem> items;
+    private List<Product> items;
 
+    @Setter
+    @Getter
     private String userId;
+    @Setter
     private Date dueDate;
     private byte[] document; // Para almacenar la imagen o PDF
 
     // Métodos getter y setter
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public Double getAmount() {
-        return amount;
-    }
-
-    public void setAmount(Double amount) {
-        this.amount = amount;
-    }
-
     public String getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public List<InvoiceItem> getItems() {
+    public List<Product> getItems() {
         return items;
     }
 
-    public void setItems(List<InvoiceItem> items) {
+    public void setItems(List<Product> items) {
         this.items = items;
     }
 
 
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
     public Date getDueDate() {
         return dueDate;
-    }
-
-    public void setDueDate(Date dueDate) {
-        this.dueDate = dueDate;
     }
 
     public byte[] getDocument() {

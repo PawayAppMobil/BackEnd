@@ -1,8 +1,7 @@
 package com.paway.spring.data.kmoneta.invoice.service;
 
-import com.paway.spring.data.kmoneta.invoice.model.InvoiceItem;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
+import com.paway.spring.data.kmoneta.inventory.model.Product;
+import com.paway.spring.data.kmoneta.inventory.model.ProductDTO;
 
 import java.util.Date;
 import java.util.List;
@@ -11,8 +10,7 @@ public class InvoiceDTO {
     private Date date;
     private Double amount;
     private String status;
-    private List<InvoiceItem> items;
-
+    private List<String> productIds;  // Cambiado a lista de IDs de productos
     private String userId;
     private Date dueDate;
      // Para la imagen o PDF
@@ -43,14 +41,13 @@ public class InvoiceDTO {
         this.status = status;
     }
 
-    public List<InvoiceItem> getItems() {
-        return items;
+    public List<String> getProductIds() {
+        return productIds;
     }
 
-    public void setItems(List<InvoiceItem> items) {
-        this.items = items;
+    public void setProductIds(List<String> productIds) {
+        this.productIds = productIds;
     }
-
 
     public String getUserId() {
         return userId;
