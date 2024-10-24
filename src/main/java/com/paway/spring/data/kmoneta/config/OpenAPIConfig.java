@@ -13,20 +13,17 @@ import org.springframework.context.annotation.Configuration;
 public class OpenAPIConfig {
   @Bean
   public OpenAPI myOpenAPI() {
-    // General configuration
-
-    var openApi = new OpenAPI();
-    openApi
+    return new OpenAPI()
             .info(new Info()
                     .title("Kmoneta API")
                     .description("Kmoneta application REST API documentation.")
                     .version("v1.0.0")
-                    .license(new License().name("Apache 2.0")
+                    .license(new License()
+                            .name("Apache 2.0")
                             .url("https://www.apache.org/licenses/LICENSE-2.0.html")))
             .externalDocs(new ExternalDocumentation()
                     .description("Kmoneta Wiki Documentation")
                     .url("https://Kmoneta.wiki.github.io/docs"));
-
-    return openApi;
   }
 }
+
