@@ -31,8 +31,7 @@ public class ReportService {
         report.setGeneratedAt(LocalDate.now());
         report.setReportType(reportType);
         report.setTransactions(transactions);
-
-
+        report.generateReport();
 
         return reportRepository.save(report);
     }
