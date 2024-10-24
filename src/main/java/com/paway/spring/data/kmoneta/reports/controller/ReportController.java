@@ -18,7 +18,7 @@ import org.springframework.http.HttpStatus;
 import java.util.Date;
 
 @RestController
-@RequestMapping("/api/report")
+@RequestMapping("/reports")
 public class ReportController {
 
     @Autowired
@@ -39,9 +39,10 @@ public class ReportController {
         List<Transaction> transactions = reportService.getTransactionsByDateRange(userId, startDate, endDate);
         return new ResponseEntity<>(transactions, HttpStatus.OK);
     }
-    @GetMapping("/{UserId}")
-    public ResponseEntity<List<Report>> getReportById(@PathVariable String UserId) {
-        val report = reportService.getReportsByUserId(UserId);
-        return new ResponseEntity<>(report, HttpStatus.OK);
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<List<Report>> getReportsByUserId(@PathVariable String userId) {
+        List<Report> reports = reportService.getReportsByUserId(userId);
+        return new ResponseEntity<>(reports, HttpStatus.OK);
     }
 }
