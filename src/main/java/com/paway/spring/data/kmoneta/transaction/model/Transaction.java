@@ -15,7 +15,7 @@ public class Transaction {
 
     @Id
     private String id;
-    private int amount;
+    private double amount;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate date;
     private String details;
@@ -38,6 +38,7 @@ public class Transaction {
     public String getType() {
         return isIncome ? "Income" : "Expense";
     }
+
     @Override
     public String toString() {
         return "Transaction [id=" + id + ", amount=" + amount + ", date=" + date + ", details=" + details + ", invoiceId=" + invoiceId + ", " + (isIncome ? "Es ingreso" : "Es gasto") + "]";
