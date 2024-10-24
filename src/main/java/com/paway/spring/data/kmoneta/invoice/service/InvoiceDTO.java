@@ -1,33 +1,28 @@
 package com.paway.spring.data.kmoneta.invoice.service;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.paway.spring.data.kmoneta.invoice.model.InvoiceItem;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
+import com.paway.spring.data.kmoneta.inventory.model.Product;
+import com.paway.spring.data.kmoneta.inventory.model.ProductDTO;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 public class InvoiceDTO {
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+
     private LocalDate date;
     private Double amount;
     private String status;
-    private List<InvoiceItem> items;
-
+    private List<String> productIds;  // Cambiado a lista de IDs de productos
     private String userId;
-
-     // Para la imagen o PDF
+    private LocalDate dueDate;
+    // Para la imagen o PDF
 
     // Getters y Setters
 
-    public LocalDate  getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(LocalDate  date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
@@ -47,14 +42,13 @@ public class InvoiceDTO {
         this.status = status;
     }
 
-    public List<InvoiceItem> getItems() {
-        return items;
+    public List<String> getProductIds() {
+        return productIds;
     }
 
-    public void setItems(List<InvoiceItem> items) {
-        this.items = items;
+    public void setProductIds(List<String> productIds) {
+        this.productIds = productIds;
     }
-
 
     public String getUserId() {
         return userId;
@@ -64,7 +58,13 @@ public class InvoiceDTO {
         this.userId = userId;
     }
 
+    public LocalDate getDueDate() {
+        return dueDate;
+    }
 
+    public void setDueDate(LocalDate dueDate) {
+        this.dueDate = dueDate;
+    }
 
 
 }

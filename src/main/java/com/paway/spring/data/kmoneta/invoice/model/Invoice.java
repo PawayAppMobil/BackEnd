@@ -1,86 +1,59 @@
 package com.paway.spring.data.kmoneta.invoice.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.paway.spring.data.kmoneta.inventory.model.Product;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
 
 @Document(collection = "invoices")
 public class Invoice {
+    @Setter
+    @Getter
     @Id
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String id;
-
+    @Setter
+    @Getter
     private LocalDate date;
+    @Setter
+    @Getter
     private Double amount;
+    @Setter
     private String status;
-    private List<InvoiceItem> items;
+    private List<Product> items;
 
+    @Setter
+    @Getter
     private String userId;
-
+    @Setter
+    private LocalDate dueDate;
     private byte[] document; // Para almacenar la imagen o PDF
 
     // Métodos getter y setter
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-    @JsonFormat(pattern = "yyyy-MM-dd ")
-    public LocalDate  getDate() {
-        return date;
-    }
-    @JsonFormat(pattern = "yyyy-MM-dd ")
-    public void setDate(LocalDate  date) {
-        this.date = date;
-    }
-
-    public Double getAmount() {
-        return amount;
-    }
-
-    public void setAmount(Double amount) {
-        this.amount = amount;
-    }
 
     public String getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public List<InvoiceItem> getItems() {
+    public List<Product> getItems() {
         return items;
     }
 
-    public void setItems(List<InvoiceItem> items) {
+    public void setItems(List<Product> items) {
         this.items = items;
     }
 
 
-
-    public String getUserId() {
-        return userId;
+    public LocalDate getDueDate() {
+        return dueDate;
     }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-
 
     public byte[] getDocument() {
         return document;
