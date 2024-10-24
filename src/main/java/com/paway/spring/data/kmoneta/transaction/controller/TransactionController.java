@@ -2,6 +2,7 @@ package com.paway.spring.data.kmoneta.transaction.controller;
 
 import com.paway.spring.data.kmoneta.transaction.model.Transaction;
 import com.paway.spring.data.kmoneta.transaction.repository.TransactionRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +26,7 @@ public class TransactionController {
     }
 
     @PostMapping
-    public Transaction createTransaction(@RequestBody Transaction transaction) {
+    public Transaction createTransaction(@Valid @RequestBody Transaction transaction) {
         return transactionRepository.save(transaction);
     }
 
