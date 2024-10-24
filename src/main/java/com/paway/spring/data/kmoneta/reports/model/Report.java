@@ -45,4 +45,10 @@ public class Report {
     public void generateId() {
         this.id = UUID.randomUUID().toString();
     }
+
+    public void generateReport() {
+        this.generateId();
+        this.generatedAt = LocalDate.now();
+        this.calculateTotals();
+    }
 }
