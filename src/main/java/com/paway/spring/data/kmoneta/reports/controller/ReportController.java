@@ -24,25 +24,57 @@ public class ReportController {
     @Autowired
     private ReportService reportService;
 
+    // 1. Crear un reporte basado en un rango de fechas
     @PostMapping
     public ResponseEntity<Report> createReport(@RequestBody ReportRequest request) {
-        Report report = reportService.generateReport(request.getUserId(), request.getDateRange(), request.getReportType());
+        Report report = reportService.generateReport(
+                request.getUserId(),
+                request.getDateRange(),
+                request.getReportType());
         return new ResponseEntity<>(report, HttpStatus.CREATED);
     }
 
+    // 2. Obtener todas las transacciones en un rango de fechas para un usuario
     @GetMapping("/transactions")
     public ResponseEntity<List<Transaction>> getTransactionsByDateRange(
             @RequestParam String userId,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDate startDate,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDate endDate) {
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
 
         List<Transaction> transactions = reportService.getTransactionsByDateRange(userId, startDate, endDate);
         return new ResponseEntity<>(transactions, HttpStatus.OK);
     }
 
-    @GetMapping("/{userId}")
+    // 3. Obtener todos los reportes de un usuario
+    @GetMapping("/user/{userId}")
     public ResponseEntity<List<Report>> getReportsByUserId(@PathVariable String userId) {
         List<Report> reports = reportService.getReportsByUserId(userId);
         return new ResponseEntity<>(reports, HttpStatus.OK);
+    }
+
+    // 4. Obtener un reporte específico de un usuario por reportId
+    @GetMapping("/user/{userId}/{reportId}")
+    public ResponseEntity<Report> getReportById(
+            @PathVariable String userId,
+            @PathVariable String reportId) {
+
+        Report report = reportService.getReportById(userId, reportId);
+        if (report == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(report, HttpStatus.OK);
+    }
+
+    // 5. Borrar un reporte específico por reportId
+    @DeleteMapping("/{userId}/{reportId}")
+    public ResponseEntity<Void> deleteReportById(
+            @PathVariable String userId,
+            @PathVariable String reportId) {
+
+        boolean deleted = reportService.deleteReportById(userId, reportId);
+        if (deleted) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }

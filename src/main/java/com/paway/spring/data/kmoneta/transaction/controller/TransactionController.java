@@ -40,4 +40,9 @@ public class TransactionController {
     public void deleteTransaction(@PathVariable String id) {
         transactionRepository.deleteById(id);
     }
+
+    @GetMapping("/user/{userId}")
+    public List<Transaction> getTransactionsByUserId(@PathVariable String userId) {
+        return transactionRepository.findByUserId(userId);
+    }
 }

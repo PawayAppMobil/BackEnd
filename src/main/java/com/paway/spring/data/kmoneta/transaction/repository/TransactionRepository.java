@@ -16,5 +16,5 @@ public interface TransactionRepository extends MongoRepository<Transaction, Stri
     // Buscar transacciones por userId y rango de fechas
     List<Transaction> findByUserIdAndDateBetween(String userId, LocalDate startDate, LocalDate endDate);
 
-
+    List<Transaction> findByUserId(String userId);
 }
