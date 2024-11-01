@@ -90,6 +90,37 @@ public class ProductController {
         }
     }
 
+    @GetMapping("/products/provider/{providerId}")
+    public ResponseEntity<List<Product>> getProductsByProviderId(@PathVariable("providerId") String providerId) {
+        try {
+            List<Product> products = productRepository.findByProviderId(providerId);
+
+            if (products.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+
+            return new ResponseEntity<>(products, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    @GetMapping("/products/user/{userId}")
+    public ResponseEntity<List<Product>> getProductsByUserId(@PathVariable("userId") String userId) {
+        try {
+            List<Product> products = productRepository.findByUserId(userId);
+
+            if (products.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+
+            return new ResponseEntity<>(products, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @PutMapping("/products/{id}")
     public ResponseEntity<Product> updateProduct(
             @PathVariable("id") String id,
