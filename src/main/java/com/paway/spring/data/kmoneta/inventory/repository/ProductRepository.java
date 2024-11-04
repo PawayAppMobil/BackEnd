@@ -13,7 +13,9 @@ public interface ProductRepository extends MongoRepository<Product, String> {
     List<Product> findByUserId(String userId);
     @Aggregation(pipeline = {
             "{ $group: { _id: '$providerId', totalStock: { $sum: '$stock' } } }",
-            "{ $project: { providerId: '$_id', totalStock: 1, _id: 0 } }"
+            "{ $lookup: { from: 'provider', localField: '_id', foreignField: '_id', as: 'provider' } }",
+            "{ $unwind: '$provider' }",
+            "{ $project: { providerId: '$_id', totalStock: 1, name: '$provider.name', _id: 0 } }"
     })
     List<ProviderStock> getTotalStockByProvider();
 }

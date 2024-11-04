@@ -1,18 +1,18 @@
 package com.paway.spring.data.kmoneta.inventory.model;
 
-import org.springframework.data.mongodb.core.mapping.Field;
-
 public class ProviderStock {
 
     private String providerId;
     private int totalStock;
+    private String name;
 
-    public ProviderStock(String providerId, int totalStock) {
+    public ProviderStock(String providerId, int totalStock, String name) {
         this.providerId = providerId;
         this.totalStock = totalStock;
+        this.name = name;
     }
 
-    // Getters y Setters
+    // Getters and Setters
     public String getProviderId() {
         return providerId;
     }
@@ -27,5 +27,13 @@ public class ProviderStock {
 
     public void setTotalStock(int totalStock) {
         this.totalStock = totalStock;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
