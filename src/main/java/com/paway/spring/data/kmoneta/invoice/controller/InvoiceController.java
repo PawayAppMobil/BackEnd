@@ -26,6 +26,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/invoices")
+
 public class InvoiceController {
 
     @Autowired

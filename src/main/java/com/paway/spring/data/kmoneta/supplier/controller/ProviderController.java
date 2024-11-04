@@ -17,6 +17,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/api/providers", produces = MediaType.APPLICATION_JSON_VALUE)
+
 public class ProviderController {
     private static final Logger logger = LoggerFactory.getLogger(ProviderController.class);
 
