@@ -1,5 +1,8 @@
 package com.paway.spring.data.kmoneta.supplier.controller;
 
+import com.paway.spring.data.kmoneta.inventory.model.ProviderProductCount;
+import com.paway.spring.data.kmoneta.inventory.model.ProviderStock;
+import com.paway.spring.data.kmoneta.inventory.repository.ProductRepository;
 import com.paway.spring.data.kmoneta.supplier.model.Provider;
 import com.paway.spring.data.kmoneta.supplier.repository.ProviderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,17 +10,20 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/api/providers", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ProviderController {
+    private static final Logger logger = LoggerFactory.getLogger(ProviderController.class);
 
     @Autowired
     private ProviderRepository providerRepository;
-
+    @Autowired
+    private ProductRepository productRepository;
 
     @PostMapping
     public ResponseEntity<Provider> addProvider(@RequestBody Provider provider) {
@@ -79,4 +85,9 @@ public class ProviderController {
         List<Provider> providers = providerRepository.findByAddress_State(state);
         return new ResponseEntity<>(providers, HttpStatus.OK);
     }
+    @GetMapping("/total-stock")
+    public List<ProviderStock> getTotalStockByProvider() {
+        return productRepository.getTotalStockByProvider();
+    }
+
 }

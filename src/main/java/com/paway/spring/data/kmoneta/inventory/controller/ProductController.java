@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
@@ -167,5 +168,12 @@ public class ProductController {
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+    @GetMapping("/stock/{providerId}")
+    public List<Integer> getStockByProvider(@PathVariable String providerId) {
+        List<Product> products = productRepository.findByProviderId(providerId);
+        return products.stream()
+                .map(Product::getStock)
+                .collect(Collectors.toList());
     }
 }
