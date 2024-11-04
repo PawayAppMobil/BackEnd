@@ -24,7 +24,9 @@ public class InvoiceService {
     public Optional<Invoice> getInvoice(String id) {
         return invoiceRepository.findById(id);
     }
-
+    public List<Invoice> getInvoicesByUserId(String userId) {
+        return invoiceRepository.findByUserId(userId);
+    }
     public List<Invoice> getAllInvoices() {
         return invoiceRepository.findAll();
     }
@@ -37,13 +39,13 @@ public class InvoiceService {
             invoice.setAmount(invoiceDTO.getAmount());
             invoice.setStatus(invoiceDTO.getStatus());
             invoice.setUserId(invoiceDTO.getUserId());
-
+            invoice.setDueDate(invoiceDTO.getDueDate());
             return invoiceRepository.save(invoice);
         }
         return null;
     }
     public List<Invoice> getInvoicesByDueDateRange(Date startDate, Date endDate) {
-        return invoiceRepository.findByDateBetween(startDate, endDate);
+        return invoiceRepository.findByDueDateBetween(startDate, endDate);
     }
     public Invoice addInvoiceDocument(String id, MultipartFile document) throws IOException {
         Optional<Invoice> optionalInvoice = invoiceRepository.findById(id);

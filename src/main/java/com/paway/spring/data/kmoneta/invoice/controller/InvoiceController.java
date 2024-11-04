@@ -99,6 +99,12 @@ public class InvoiceController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<Invoice>> getInvoicesByUserId(@PathVariable String userId) {
+        List<Invoice> invoices = invoiceService.getInvoicesByUserId(userId);
+        return new ResponseEntity<>(invoices, HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Invoice> getInvoice(@PathVariable String id) {
         return invoiceService.getInvoice(id)
