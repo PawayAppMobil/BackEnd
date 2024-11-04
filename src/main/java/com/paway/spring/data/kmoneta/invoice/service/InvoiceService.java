@@ -24,7 +24,9 @@ public class InvoiceService {
     public Optional<Invoice> getInvoice(String id) {
         return invoiceRepository.findById(id);
     }
-
+    public List<Invoice> getInvoicesByUserId(String userId) {
+        return invoiceRepository.findByUserId(userId);
+    }
     public List<Invoice> getAllInvoices() {
         return invoiceRepository.findAll();
     }
