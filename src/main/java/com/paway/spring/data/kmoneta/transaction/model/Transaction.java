@@ -18,6 +18,7 @@ import java.time.LocalDate;
 public class Transaction {
 
     @Id
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private String id;
 
     @NotNull(message = "El monto no puede ser nulo.")
