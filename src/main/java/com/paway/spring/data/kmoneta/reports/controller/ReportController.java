@@ -19,7 +19,6 @@ import java.util.Date;
 
 @RestController
 @RequestMapping("/reports")
-@CrossOrigin(origins = "*")
 public class ReportController {
 
     @Autowired
