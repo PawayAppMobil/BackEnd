@@ -1,5 +1,6 @@
 package com.paway.spring.data.kmoneta.inventory.controller;
 
+import com.paway.spring.data.kmoneta.inventory.model.Message;
 import com.paway.spring.data.kmoneta.inventory.model.ProductDTO;
 import com.paway.spring.data.kmoneta.inventory.model.Product;
 import com.paway.spring.data.kmoneta.inventory.repository.ProductRepository;
@@ -126,38 +127,53 @@ public class ProductController {
     @PutMapping("/products/{id}")
     public ResponseEntity<Product> updateProduct(
             @PathVariable("id") String id,
-            @ModelAttribute ProductDTO productDTO) {
+            @RequestBody ProductDTO productDTO){
         Optional<Product> productData = productRepository.findById(id);
-
         if (productData.isPresent()) {
             Product _product = productData.get();
             _product.setProductName(productDTO.getProductName());
             _product.setDescription(productDTO.getDescription());
             _product.setPrice(productDTO.getPrice());
             _product.setStock(productDTO.getStock());
-
-            if (productDTO.getImage() != null && !productDTO.getImage().isEmpty()) {
-                try {
-                    _product.setImage(productDTO.getImage().getBytes());
-                } catch (IOException e) {
-                    return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-                }
-            }
-
-            return new ResponseEntity<>(productRepository.save(_product), HttpStatus.OK);
+            Product updatedProduct = productRepository.save(_product);
+            return new ResponseEntity<>(updatedProduct, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+    @PutMapping(value="/products/{id}/image", consumes = "multipart/form-data")
+    public ResponseEntity<Product> updateProductImage(
+            @PathVariable("id") String id,
+            @RequestPart MultipartFile image) {
+        try {
+            Optional<Product> productData = productRepository.findById(id);
+            if (productData.isPresent()) {
+                Product _product = productData.get();
+                byte[] imageBytes = null;
+                if (image != null && !image.isEmpty()) {
+                    imageBytes = image.getBytes();
+                }
+                _product.setImage(imageBytes);
+                Product updatedProduct = productRepository.save(_product);
+                return new ResponseEntity<>(updatedProduct, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        } catch (IOException e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
 
     @DeleteMapping("/products/{id}")
-    public ResponseEntity<HttpStatus> deleteProduct(@PathVariable("id") String id) {
+    public ResponseEntity<Message> deleteProduct(@PathVariable("id") String id) {
         try {
             productRepository.deleteById(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            Message message = new Message("Objeto eliminado exitosamente");
+            return new ResponseEntity<>(message, HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            Message message = new Message("Error al eliminar el objeto");
+            return new ResponseEntity<>(message, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
