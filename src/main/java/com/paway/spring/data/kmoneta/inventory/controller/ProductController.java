@@ -168,6 +168,10 @@ public class ProductController {
     @DeleteMapping("/products/{id}")
     public ResponseEntity<Message> deleteProduct(@PathVariable("id") String id) {
         try {
+            if(!productRepository.existsById(id)){
+                Message message = new Message("Objeto no encontrado");
+                return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
+            }
             productRepository.deleteById(id);
             Message message = new Message("Objeto eliminado exitosamente");
             return new ResponseEntity<>(message, HttpStatus.OK);
